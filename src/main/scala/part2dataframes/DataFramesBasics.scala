@@ -30,11 +30,11 @@ object DataFramesBasics extends App {
   // schema
   val carsSchema = StructType(Array(
     StructField("Name", StringType),
-    StructField("Miles_per_Gallon", IntegerType),
-    StructField("Cylinders", IntegerType),
-    StructField("Displacement", IntegerType),
-    StructField("Horsepower", IntegerType),
-    StructField("Weight_in_lbs", IntegerType),
+    StructField("Miles_per_Gallon", DoubleType),
+    StructField("Cylinders", LongType),
+    StructField("Displacement", DoubleType),
+    StructField("Horsepower", LongType),
+    StructField("Weight_in_lbs", LongType),
     StructField("Acceleration", DoubleType),
     StructField("Year", StringType),
     StructField("Origin", StringType)
