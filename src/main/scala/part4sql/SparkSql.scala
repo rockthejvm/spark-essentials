@@ -83,9 +83,9 @@ object SparkSql extends App {
     .option("inferSchema", "true")
     .json("src/main/resources/data/movies.json")
 
-//  moviesDF.write
-//    .mode(SaveMode.Overwrite)
-//    .saveAsTable("movies")
+  moviesDF.write
+    .mode(SaveMode.Overwrite)
+    .saveAsTable("movies")
 
   // 2
   spark.sql(
