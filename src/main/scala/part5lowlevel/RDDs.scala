@@ -1,6 +1,6 @@
 package part5lowlevel
 
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{SaveMode, SparkSession}
 
 import scala.io.Source
 
@@ -19,7 +19,7 @@ object RDDs extends App {
   val numbersRDD = sc.parallelize(numbers)
 
   // 2 - reading from files
-  case class StockValue(company: String, date: String, price: Double)
+  case class StockValue(symbol: String, date: String, price: Double)
   def readStocks(filename: String) =
     Source.fromFile(filename)
       .getLines()
@@ -47,9 +47,9 @@ object RDDs extends App {
   val stocksRDD3 = stocksDS.rdd
 
   // RDD -> DF
-  val stocksDF2 = stocksRDD.toDF("numbers") // you lose the type info
+  val numbersDF = numbersRDD.toDF("numbers") // you lose the type info
 
   // RDD -> DS
-  val stocksDS2 = spark.createDataset(stocksRDD) // you keep the type info
+  val numbersDS = spark.createDataset(numbersRDD) // you get to keep type info
 
 }
