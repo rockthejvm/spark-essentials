@@ -20,5 +20,17 @@ object TaxiApplication extends App {
     .csv("src/main/resources/data/taxi_zones.csv")
   taxiZonesDF.printSchema()
 
-
+  /**
+    * Questions:
+    *
+    * 1. Which zones have the most pickups/dropoffs overall?
+    * 2. What are the peak hours for taxi?
+    * 3. How are the trips distributed? Why are people taking the cab?
+    * 4. What are the peak hours for long/short trips?
+    * 5. What are the top 3 pickup/dropoff zones for long/short trips?
+    * 6. How are people paying for the ride, on long/short trips?
+    * 7. How is the payment type evolving with time?
+    * 8. Can we explore a ride-sharing opportunity by grouping close short trips?
+    * 
+    */
 }
