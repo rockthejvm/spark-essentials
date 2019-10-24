@@ -11,7 +11,7 @@ object TaxiApplication extends App {
     .getOrCreate()
   import spark.implicits._
 
-  val bigTaxiDF = spark.read.load("/Users/daniel/Downloads/NYC_taxi_2009-2016.parquet")
+  val bigTaxiDF = spark.read.load("path/to/your/dataset/NYC_taxi_2009-2016.parquet")
 
   val taxiDF = spark.read.load("src/main/resources/data/yellow_taxi_jan_25_2018")
   taxiDF.printSchema()
@@ -106,30 +106,30 @@ object TaxiApplication extends App {
   passengerCountDF.show()
   taxiDF.select(count("*")).show()
 
-//  val groupAttemptsDF = taxiDF
-//    .select(round(unix_timestamp(col("tpep_pickup_datetime")) / 300).cast("integer").as("fiveMinId"), col("PULocationID"), col("total_amount"))
-//    .where(col("passenger_count") < 3)
-//    .groupBy(col("fiveMinId"), col("PULocationID"))
-//    .agg(count("*").as("total_trips"), sum(col("total_amount")).as("total_amount"))
-//    .orderBy(col("total_trips").desc_nulls_last)
-//    .withColumn("approximate_datetime", from_unixtime(col("fiveMinId") * 300))
-//    .drop("fiveMinId")
-//    .join(taxiZonesDF, col("PULocationID") === col("LocationID"))
-//    .drop("LocationID", "service_zone")
-//
-//  val percentGroupAttempt = 0.05
-//  val percentAcceptGrouping = 0.3
-//  val discount = 5
-//  val extraCost = 2
-//  val avgCostReduction = 0.6 * taxiDF.select(avg(col("total_amount"))).as[Double].take(1)(0)
-//
-//  val groupingEstimateEconomicImpactDF = groupAttemptsDF
-//    .withColumn("groupedRides", col("total_trips") * percentGroupAttempt)
-//    .withColumn("acceptedGroupedRidesEconomicImpact", col("groupedRides") * percentAcceptGrouping * (avgCostReduction - discount))
-//    .withColumn("rejectedGroupedRidesEconomicImpact", col("groupedRides") * (1 - percentAcceptGrouping) * extraCost)
-//    .withColumn("totalImpact", col("acceptedGroupedRidesEconomicImpact") + col("rejectedGroupedRidesEconomicImpact"))
-//
-//  val totalProfitDF = groupingEstimateEconomicImpactDF.select(sum(col("totalImpact")).as("total"))
+  val groupAttemptsDF = taxiDF
+    .select(round(unix_timestamp(col("tpep_pickup_datetime")) / 300).cast("integer").as("fiveMinId"), col("PULocationID"), col("total_amount"))
+    .where(col("passenger_count") < 3)
+    .groupBy(col("fiveMinId"), col("PULocationID"))
+    .agg(count("*").as("total_trips"), sum(col("total_amount")).as("total_amount"))
+    .orderBy(col("total_trips").desc_nulls_last)
+    .withColumn("approximate_datetime", from_unixtime(col("fiveMinId") * 300))
+    .drop("fiveMinId")
+    .join(taxiZonesDF, col("PULocationID") === col("LocationID"))
+    .drop("LocationID", "service_zone")
+
+  val percentGroupAttempt = 0.05
+  val percentAcceptGrouping = 0.3
+  val discount = 5
+  val extraCost = 2
+  val avgCostReduction = 0.6 * taxiDF.select(avg(col("total_amount"))).as[Double].take(1)(0)
+
+  val groupingEstimateEconomicImpactDF = groupAttemptsDF
+    .withColumn("groupedRides", col("total_trips") * percentGroupAttempt)
+    .withColumn("acceptedGroupedRidesEconomicImpact", col("groupedRides") * percentAcceptGrouping * (avgCostReduction - discount))
+    .withColumn("rejectedGroupedRidesEconomicImpact", col("groupedRides") * (1 - percentAcceptGrouping) * extraCost)
+    .withColumn("totalImpact", col("acceptedGroupedRidesEconomicImpact") + col("rejectedGroupedRidesEconomicImpact"))
+
+  val totalProfitDF = groupingEstimateEconomicImpactDF.select(sum(col("totalImpact")).as("total"))
   // 40k/day = 12 million/year!!!
 
 
