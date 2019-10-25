@@ -2,11 +2,19 @@
 
 This repository contains the code we wrote during  [Rock the JVM's Akka HTTP with Scala](https://www.udemy.com/spark-essentials) course on Udemy. Unless explicitly mentioned, the code in this repository is exactly what was caught on camera.
 
-### How to install
+## How to install
+
+- install Docker
 - either clone the repo or download as zip
 - open with IntelliJ as an SBT project
+- in a terminal window, navigate to the folder where you downloaded this repo and run `docker-compose up` to build and start the PostgreSQL container - we will interact with it from Spark
+- in another terminal window, navigate to `spark-cluster/` and build the Docker-based Spark cluster with
+```
+chmod +x build-images.sh
+./build-images.sh
+```
+- when prompted to start the Spark cluster, go to the `spark-cluster` folder and run `docker-compose up --scale spark-worker=3` to spin up the Spark containers
 
-No need to do anything else, as the IDE will take care to download and apply the appropriate library dependencies.
 
 ### How to start
 
