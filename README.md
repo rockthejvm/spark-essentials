@@ -45,15 +45,14 @@ The tags are as follows:
 * `start`
 * `1.1-scala-recap`
 * `2.1-dataframes`
-* `2.10-joins-exercise`
 * `2.2-dataframes-basics-exercise`
 * `2.4-datasources`
-* `2.5-datasources-2`
 * `2.5-datasources-part-2`
 * `2.6-columns-expressions`
 * `2.7-columns-expressions-exercise`
 * `2.8-aggregations`
 * `2.9-joins`
+* `2.10-joins-exercise`
 * `3.1-common-types`
 * `3.2-complex-types`
 * `3.3-managing-nulls`
