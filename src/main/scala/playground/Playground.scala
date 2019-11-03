@@ -43,16 +43,16 @@ object Playground extends App {
     * A "manual" sequence of rows describing cars, fetched from cars.json in the data folder.
     */
   val cars = Seq(
-    Row("chevrolet chevelle malibu",18,8,307,130,3504,12.0,"1970-01-01","USA"),
-    Row("buick skylark 320",15,8,350,165,3693,11.5,"1970-01-01","USA"),
-    Row("plymouth satellite",18,8,318,150,3436,11.0,"1970-01-01","USA"),
-    Row("amc rebel sst",16,8,304,150,3433,12.0,"1970-01-01","USA"),
-    Row("ford torino",17,8,302,140,3449,10.5,"1970-01-01","USA"),
-    Row("ford galaxie 500",15,8,429,198,4341,10.0,"1970-01-01","USA"),
-    Row("chevrolet impala",14,8,454,220,4354,9.0,"1970-01-01","USA"),
-    Row("plymouth fury iii",14,8,440,215,4312,8.5,"1970-01-01","USA"),
-    Row("pontiac catalina",14,8,455,225,4425,10.0,"1970-01-01","USA"),
-    Row("amc ambassador dpl",15,8,390,190,3850,8.5,"1970-01-01","USA")
+    Row("chevrolet chevelle malibu",18.0,8L,307.0,130L,3504L,12.0,"1970-01-01","USA"),
+    Row("buick skylark 320",15.0,8L,350.0,165L,3693L,11.5,"1970-01-01","USA"),
+    Row("plymouth satellite",18.0,8L,318.0,150L,3436L,11.0,"1970-01-01","USA"),
+    Row("amc rebel sst",16.0,8L,304.0,150L,3433L,12.0,"1970-01-01","USA"),
+    Row("ford torino",17.0,8L,302.0,140L,3449L,10.5,"1970-01-01","USA"),
+    Row("ford galaxie 500",15.0,8L,429.0,198L,4341L,10.0,"1970-01-01","USA"),
+    Row("chevrolet impala",14.0,8L,454.0,220L,4354L,9.0,"1970-01-01","USA"),
+    Row("plymouth fury iii",14.0,8L,440.0,215L,4312L,8.5,"1970-01-01","USA"),
+    Row("pontiac catalina",14.0,8L,455.0,225L,4425L,10.0,"1970-01-01","USA"),
+    Row("amc ambassador dpl",15.0,8L,390.0,190L,3850L,8.5,"1970-01-01","USA")
   )
 
   /**
