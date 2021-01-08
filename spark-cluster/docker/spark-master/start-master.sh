@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/usr/bin/env bash
 
 export SPARK_MASTER_HOST=`hostname`
 

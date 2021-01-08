@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/usr/bin/env bash
 
 . "/spark/sbin/spark-config.sh"
 . "/spark/bin/load-spark-env.sh"

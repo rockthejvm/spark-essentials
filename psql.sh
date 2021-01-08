@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 echo "==================     Help for psql   ========================="
 echo "\\dt		: Describe the current database"
 echo "\\d [table]	: Describe a table"
