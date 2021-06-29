@@ -1,9 +1,9 @@
-FROM openjdk:8u212-b04-jdk-stretch
+FROM adoptopenjdk/openjdk8
 LABEL author="Daniel Ciocirlan" email="daniel@rockthejvm.com"
 LABEL version="0.2"
 
 ENV DAEMON_RUN=true
-ENV SPARK_VERSION=3.0.2
+ENV SPARK_VERSION=3.1.2
 ENV HADOOP_VERSION=2.7
 ENV SCALA_VERSION=2.12.4
 ENV SCALA_HOME=/usr/share/scala
