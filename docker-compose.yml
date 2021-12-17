@@ -9,6 +9,6 @@ services:
       - "POSTGRES_USER=docker"
       - "POSTGRES_PASSWORD=docker"
     ports:
-      - "5432:5432"
+      - "5432"
     volumes:
       - "./sql:/docker-entrypoint-initdb.d"
