@@ -4,20 +4,35 @@ This repository contains the code we wrote during  [Rock the JVM's Spark Essenti
 
 ## How to install
 
-- install Docker
+- install [Docker](https://docker.com)
 - either clone the repo or download as zip
 - open with IntelliJ as an SBT project
 - in a terminal window, navigate to the folder where you downloaded this repo and run `docker-compose up` to build and start the PostgreSQL container - we will interact with it from Spark
-- in another terminal window, navigate to `spark-cluster/` and build the Docker-based Spark cluster with
+- in another terminal window, navigate to `spark-cluster/` 
+- Linux/Mac users: build the Docker-based Spark cluster with
 ```
 chmod +x build-images.sh
 ./build-images.sh
 ```
-- when prompted to start the Spark cluster, go to the `spark-cluster` folder and run `docker-compose up --scale spark-worker=3` to spin up the Spark containers
-- For **Windows** users: 
+- Windows users: build the Docker-based Spark cluster with
+```
+build-images.bat
+```
+- when prompted to start the Spark cluster, go to the `spark-cluster` directory and run `docker-compose up --scale spark-worker=3` to spin up the Spark containers with 3 worker nodes
 
-  By default Spark will be unable to write files using the local spark executor.  To allow writing of files you will need to install the windows hadooop binaries.  They can be downloaded here: https://github.com/cdarlint/winutils.  Instructions on how to set environment variables in windows can be found here: https://docs.oracle.com/en/database/oracle/machine-learning/oml4r/1.5.1/oread/creating-and-modifying-environment-variables-on-windows.html
+### A Note For Windows users: Adding Winutils
 
+By default, Spark will be unable to write files using the local Spark executor. To write files, you will need to install the Windows Hadoop binaries, aka [winutils](https://github.com/cdarlint/winutils). You can take the latest binary (Hadoop 3.2 as of June 2022), or use Hadoop 2.7 as a fallback.
+
+After you download winutils.exe, create a directory anywhere (e.g. `C:\\winutils`), then create a `bin` directory under that, then place the winutils executable there.
+
+You will also need to set the `HADOOP_HOME` environment variable to your directory where you added `bin\winutils.exe`. In the example above, that would be `C:\\winutils`.
+
+An alternative to setting the environment variable is to add this line at the beginning of every Spark application we write:
+
+```scala
+System.setProperty("hadoop.home.dir","C:\\hadoop") // replace C:\\hadoop with your actual directory
+```
 
 ### How to start
 
