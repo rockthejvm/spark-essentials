@@ -14,6 +14,9 @@ chmod +x build-images.sh
 ./build-images.sh
 ```
 - when prompted to start the Spark cluster, go to the `spark-cluster` folder and run `docker-compose up --scale spark-worker=3` to spin up the Spark containers
+- For **Windows** users: 
+
+  By default Spark will be unable to write files using the local spark executor.  To allow writing of files you will need to install the windows hadooop binaries.  They can be downloaded here: https://github.com/cdarlint/winutils.  Instructions on how to set environment variables in windows can be found here: https://docs.oracle.com/en/database/oracle/machine-learning/oml4r/1.5.1/oread/creating-and-modifying-environment-variables-on-windows.html
 
 
 ### How to start
