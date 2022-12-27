@@ -113,7 +113,7 @@ object DataSources extends App {
 
   val moviesDF = spark.read.json("src/main/resources/data/movies.json")
 
-  // TSV
+  // CSV
   moviesDF.write
     .format("csv")
     .option("header", "true")
