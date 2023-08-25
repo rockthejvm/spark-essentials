@@ -61,7 +61,7 @@ object DataSources extends App {
   // JSON flags
   spark.read
     .schema(carsSchema)
-    .option("dateFormat", "YYYY-MM-dd") // couple with schema; if Spark fails parsing, it will put null
+    .option("dateFormat", "yyyy-MM-dd") // couple with schema; if Spark fails parsing, it will put null
     .option("allowSingleQuotes", "true")
     .option("compression", "uncompressed") // bzip2, gzip, lz4, snappy, deflate
     .json("src/main/resources/data/cars.json")
@@ -75,7 +75,7 @@ object DataSources extends App {
 
   spark.read
     .schema(stocksSchema)
-    .option("dateFormat", "MMM dd YYYY")
+    .option("dateFormat", "MMM d yyyy")
     .option("header", "true")
     .option("sep", ",")
     .option("nullValue", "")
