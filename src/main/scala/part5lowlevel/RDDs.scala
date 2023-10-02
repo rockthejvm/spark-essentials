@@ -21,13 +21,16 @@ object RDDs extends App {
 
   // 2 - reading from files
   case class StockValue(symbol: String, date: String, price: Double)
-  def readStocks(filename: String) =
-    Source.fromFile(filename)
-      .getLines()
+  def readStocks(filename: String) = {
+    val source = Source.fromFile(filename)
+    val stockValues = source.getLines()
       .drop(1)
       .map(line => line.split(","))
       .map(tokens => StockValue(tokens(0), tokens(1), tokens(2).toDouble))
       .toList
+    source.close()
+    stockValues
+  }
 
   val stocksRDD = sc.parallelize(readStocks("src/main/resources/data/stocks.csv"))
 

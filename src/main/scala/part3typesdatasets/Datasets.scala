@@ -35,7 +35,7 @@ object Datasets extends App {
                 Horsepower: Option[Long],
                 Weight_in_lbs: Long,
                 Acceleration: Double,
-                Year: Date,
+                Year: String,
                 Origin: String
                 )
 

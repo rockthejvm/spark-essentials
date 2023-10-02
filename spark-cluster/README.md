@@ -38,13 +38,13 @@ chmod +x build-images.sh
 
 This will create the following docker images:
 
-* spark-base:2.3.1: A base image based on java:alpine-jdk-8 wich ships scala, python3 and spark 2.3.1
+* spark-base:3.5.0: A base image based on java:alpine-jdk-8 wich ships scala, python3 and spark 3.5.0.
 
-* spark-master:2.3.1: A image based on the previously created spark image, used to create a spark master containers.
+* spark-master:3.5.0: A image based on the previously created spark image, used to create a spark master containers.
 
-* spark-worker:2.3.1: A image based on the previously created spark image, used to create spark worker containers.
+* spark-worker:3.5.0: A image based on the previously created spark image, used to create spark worker containers.
 
-* spark-submit:2.3.1: A image based on the previously created spark image, used to create spark submit containers(run, deliver driver and die gracefully).
+* spark-submit:3.5.0: A image based on the previously created spark image, used to create spark submit containers(run, deliver driver and die gracefully).
 
 ## Run the docker-compose
 
@@ -56,7 +56,7 @@ docker-compose up --scale spark-worker=3
 
 ## Validate your cluster
 
-Just validate your cluster accesing the spark UI on each worker & master URL.
+Just validate your cluster accessing the spark UI on each worker & master URL.
 
 ### Spark Master
 
@@ -174,7 +174,7 @@ docker run --network docker-spark-cluster_spark-network \
 -v /mnt/spark-apps:/opt/spark-apps \
 --env SPARK_APPLICATION_JAR_LOCATION=$SPARK_APPLICATION_JAR_LOCATION \
 --env SPARK_APPLICATION_MAIN_CLASS=$SPARK_APPLICATION_MAIN_CLASS \
-spark-submit:2.3.1
+spark-submit:3.5.0
 
 ```
 
@@ -191,7 +191,7 @@ Running Spark using the REST application submission protocol.
 {
   "action" : "CreateSubmissionResponse",
   "message" : "Driver successfully submitted as driver-20180923151753-0000",
-  "serverSparkVersion" : "2.3.1",
+  "serverSparkVersion" : "3.5.0",
   "submissionId" : "driver-20180923151753-0000",
   "success" : true
 }
@@ -211,7 +211,7 @@ Running Spark using the REST application submission protocol.
 
 # Why a standalone cluster?
 
-* This is intended to be used for test purposses, basically a way of running distributed spark apps on your laptop or desktop.
+* This is intended to be used for test purposes, basically a way of running distributed spark apps on your laptop or desktop.
 
 * Right now I don't have enough resources to make a Yarn, Mesos or Kubernetes based cluster :(.
 
