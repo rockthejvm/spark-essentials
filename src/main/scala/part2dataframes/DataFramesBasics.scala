@@ -87,21 +87,22 @@ object DataFramesBasics extends App {
     *   - count the number of rows, call count()
     */
 
-  // 1
   val smartphones = Seq(
-    ("Samsung", "Galaxy S10", "Android", 12),
-    ("Apple", "iPhone X", "iOS", 13),
-    ("Nokia", "3310", "THE BEST", 0)
+    ("iPhone", "15", 6.1, 48),
+    ("iPhone", "15 pro max", 6.7, 48),
+    ("Samsung", "S23 ultra", 6.8, 200),
+    ("Google", "Pixel 8", 6.2, 50),
+    ("NOTHING", "Phone 2", 6.7, 50),
+    ("Xiaomi", "13T Pro", 6.67, 50)
   )
-
-  val smartphonesDF = smartphones.toDF("Make", "Model", "Platform", "CameraMegapixels")
+  val smartphonesDF = smartphones.toDF("Make", "Model", "Screen dimension", "Camera megapixels")
   smartphonesDF.show()
 
-  // 2
-  val moviesDF = spark.read
+  val Movies = spark.read
     .format("json")
     .option("inferSchema", "true")
     .load("src/main/resources/data/movies.json")
-  moviesDF.printSchema()
-  println(s"The Movies DF has ${moviesDF.count()} rows")
+
+  Movies.printSchema()
+  println(s"The Movies DF has ${Movies.count()} rows")
 }
