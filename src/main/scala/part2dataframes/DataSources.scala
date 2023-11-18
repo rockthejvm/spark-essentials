@@ -117,6 +117,7 @@ object DataSources extends App {
     .load()
     // TSV
   moviesDF.write
+    .format("csv")
     .mode(SaveMode.Overwrite)
     .option("header", "true")
     .option("sep", "\t")
@@ -126,4 +127,14 @@ object DataSources extends App {
   moviesDF.write
     .mode(SaveMode.Overwrite)
     .save("src/main/resources/data/movies.parquet")
+
+  // Write to remote DB
+/*  moviesDF.write
+    .format("jdbc")
+    .option("driver", "org.postgresql.Driver")
+    .option("url", "jdbc:postgresql://localhost:5432/rtjvm")
+    .option("user", "docker")
+    .option("password", "docker")
+    .option("dbtable", "public.movies")
+    .save()*/
 }
