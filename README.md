@@ -21,7 +21,28 @@ build-images.bat
 ```
 - when prompted to start the Spark cluster, go to the `spark-cluster` directory and run `docker-compose up --scale spark-worker=3` to spin up the Spark containers with 3 worker nodes
 
-### How to start
+### Spark Cluster Troubleshooting
+
+#### Windows users - '\r' command not found
+
+When triggering the Docker Compose command, some Windows users have reported errors that look like this:
+
+```
+spark-worker-1  | /start-worker.sh: line 2: $'\r': command not found
+: No such file or directoryrker.sh: line 3: /spark/sbin/spark-config.sh
+: No such file or directoryrker.sh: line 4: /spark/bin/load-spark-env.sh
+spark-worker-1  | /start-worker.sh: line 5: $'\r': command not found
+spark-worker-1  | /start-worker.sh: line 7: $'\r': command not found
+spark-worker-1  | /start-worker.sh: line 9: $'\r': command not found
+spark-worker-1  | ln: failed to create symbolic link '/spark/logs/spark-worker.out'$'\r': No such file or directory
+spark-worker-1  | /start-worker.sh: line 11: $'\r': command not found
+spark-worker-1  | /start-worker.sh: line 12: /spark/logs/spark-worker.out: No such file or directory
+spark-worker-1 exited with code 1
+```
+
+The problem is with line endings (`\r`) that have not been converted automatically by GitHub in some situations. Clean the images you've created and explicitly run the `dos2unix` command on all `.sh` files, then recreate the images and the cluster again.
+
+## How to use the code
 
 Clone this repository and checkout the `start` tag by running the following in the repo folder:
 
