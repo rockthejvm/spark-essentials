@@ -37,4 +37,4 @@ RUN wget --no-verbose https://archive.apache.org/dist/spark/spark-${SPARK_VERSIO
 
 # Fix the value of PYTHONHASHSEED
 # Note: this is needed when you use Python 3.3 or greater
-ENV PYTHONHASHSEED 1
+ENV PYTHONHASHSEED=1
