@@ -1,5 +1,6 @@
 package part2dataframes
 
+import org.apache.spark.sql.functions.{col, date_format}
 import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql.types._
 
@@ -82,7 +83,9 @@ object DataSources extends App {
     .csv("src/main/resources/data/stocks.csv")
 
   // Parquet
-  carsDF.write
+  carsDF
+    .withColumn("Year",date_format(col("Year"),"yyyy-MM-dd")) // date format conversion *before* writing to Parquet
+    .write
     .mode(SaveMode.Overwrite)
     .save("src/main/resources/data/cars.parquet")
 
