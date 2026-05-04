@@ -4,7 +4,9 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
 
-object ComplexTypes extends App {
+object ComplexTypes { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+
+  def main(args: Array[String]): Unit = {
 
   val spark = SparkSession.builder()
     .appName("Complex Data Types")
@@ -67,4 +69,5 @@ object ComplexTypes extends App {
     array_contains(col("Title_Words"), "Love") // look for value in array
   )
 
+  }
 }

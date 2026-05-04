@@ -3,7 +3,9 @@ package part2dataframes
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{expr, max, col}
 
-object Joins extends App {
+object Joins { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+
+  def main(args: Array[String]): Unit = {
 
   val spark = SparkSession.builder()
     .appName("Joins")
@@ -103,5 +105,6 @@ object Joins extends App {
   val bestPaidJobsDF = bestPaidEmployeesDF.join(mostRecentJobTitlesDF, "emp_no")
 
   bestPaidJobsDF.show()
+  }
 }
 

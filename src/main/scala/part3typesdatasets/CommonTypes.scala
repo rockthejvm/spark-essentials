@@ -4,7 +4,9 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.FloatType
 
-object CommonTypes extends App {
+object CommonTypes { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+
+  def main(args: Array[String]): Unit = {
 
   val spark = SparkSession.builder()
     .appName("Common Spark Types")
@@ -88,5 +90,5 @@ object CommonTypes extends App {
   val bigFilter = carNameFilters.fold(lit(false))((combinedFilter, newCarNameFilter) => combinedFilter or newCarNameFilter)
   carsDF.filter(bigFilter).show
 
-
+  }
 }

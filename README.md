@@ -1,46 +1,66 @@
 # The official repository for the Rock the JVM Spark Essentials with Scala course
 
-This repository contains the code we wrote during  [Rock the JVM's Spark Essentials with Scala](https://rockthejvm.com/course/spark-essentials) (Udemy version [here](https://udemy.com/spark-essentials)) Unless explicitly mentioned, the code in this repository is exactly what was caught on camera.
+<!-- UPDATE: Rewritten for Spark 4.1.1 — simplified Docker setup (official images), updated prerequisites, removed build-images step -->
+
+This repository contains the code we wrote during [Rock the JVM's Spark Essentials with Scala](https://rockthejvm.com/course/spark-essentials) (Udemy version [here](https://udemy.com/spark-essentials)). Unless explicitly mentioned, the code in this repository is exactly what was caught on camera.
+
+## Prerequisites
+
+- **Java**: JDK 17 or 21 (recommend [Eclipse Temurin 21](https://adoptium.net/))
+- **Docker**: [Docker Desktop](https://docker.com) (Mac/Windows) or Docker Engine (Linux)
+- **IDE**: [IntelliJ IDEA](https://www.jetbrains.com/idea/) with the Scala plugin
+- **Windows-specific**: See [HadoopWindowsUserSetup.md](/HadoopWindowsUserSetup.md) or use WSL 2 (recommended)
+
+> **Note**: Spark 4.x requires Java 17 or 21. Java 8 and 11 are **no longer supported**.
 
 ## How to install
 
-- install [Docker](https://docker.com)
-- either clone the repo or download as zip
-- open with IntelliJ as an SBT project
-- Windows users, you need to set up some Hadoop-related configs - use [this guide](/HadoopWindowsUserSetup.md)
-- in a terminal window, navigate to the folder where you downloaded this repo and run `docker compose up` to build and start the PostgreSQL container - we will interact with it from Spark
-- in another terminal window, navigate to `spark-cluster/` 
-- Linux/Mac users: build the Docker-based Spark cluster with
-```
-chmod +x build-images.sh
-./build-images.sh
-```
-- Windows users: build the Docker-based Spark cluster with
-```
-build-images.bat
-```
-- when prompted to start the Spark cluster, go to the `spark-cluster` directory and run `docker compose up --scale spark-worker=3` to spin up the Spark containers with 3 worker nodes
+- Install [Docker](https://docker.com)
+- Install JDK 17 or 21 ([Eclipse Temurin](https://adoptium.net/) recommended)
+- Either clone the repo or download as zip
+- Open with IntelliJ as an SBT project
+- Windows users: you need to set up some Hadoop-related configs — use [this guide](/HadoopWindowsUserSetup.md)
+- In a terminal window, navigate to the folder where you downloaded this repo and run `docker compose up` to start PostgreSQL and the Spark cluster
+- To spin up multiple Spark workers: `docker compose up --scale spark-worker=3`
+- Access the Spark Master UI at http://localhost:9090
 
-### Spark Cluster Troubleshooting
+### Connecting to PostgreSQL
 
-#### Windows users - '\r' command not found
+```bash
+# Linux/Mac
+./psql.sh
 
-When triggering the Docker Compose command, some Windows users have reported errors that look like this:
-
-```
-spark-worker-1  | /start-worker.sh: line 2: $'\r': command not found
-: No such file or directoryrker.sh: line 3: /spark/sbin/spark-config.sh
-: No such file or directoryrker.sh: line 4: /spark/bin/load-spark-env.sh
-spark-worker-1  | /start-worker.sh: line 5: $'\r': command not found
-spark-worker-1  | /start-worker.sh: line 7: $'\r': command not found
-spark-worker-1  | /start-worker.sh: line 9: $'\r': command not found
-spark-worker-1  | ln: failed to create symbolic link '/spark/logs/spark-worker.out'$'\r': No such file or directory
-spark-worker-1  | /start-worker.sh: line 11: $'\r': command not found
-spark-worker-1  | /start-worker.sh: line 12: /spark/logs/spark-worker.out: No such file or directory
-spark-worker-1 exited with code 1
+# Windows
+psql.bat
 ```
 
-The problem is with line endings (`\r`) that have not been converted automatically by GitHub in some situations. Clean the images you've created and explicitly run the `dos2unix` command on all `.sh` files, then recreate the images and the cluster again.
+### Connecting to the Spark Cluster
+
+```bash
+# Open a shell on the Spark master
+docker exec -it spark-master bash
+
+# Launch the Spark shell
+/opt/spark/bin/spark-shell --master spark://spark-master:7077
+
+# Launch the Spark SQL shell
+/opt/spark/bin/spark-sql --master spark://spark-master:7077
+```
+
+### Submitting a JAR to the Cluster
+
+1. Build the JAR: `sbt package` (or use IntelliJ Build Artifacts)
+2. Copy the JAR to `spark-cluster/apps/`
+3. Copy data files to `spark-cluster/data/`
+4. Submit from inside the master container:
+
+```bash
+docker exec -it spark-master /opt/spark/bin/spark-submit \
+  --class part6practical.TestDeployApp \
+  --master spark://spark-master:7077 \
+  --deploy-mode client \
+  /opt/spark-apps/spark-essentials_2.13-0.3.jar /opt/spark-data/movies.json /opt/spark-data/goodMovies
+```
 
 ## How to use the code
 

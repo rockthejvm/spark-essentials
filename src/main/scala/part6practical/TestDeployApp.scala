@@ -44,35 +44,39 @@ object TestDeployApp {
   }
 
    /*
-    * Build a JAR to run a Spark application on the Docker cluster
+    * UPDATE: Rewritten for official Apache Spark Docker images and sbt packaging.
     *
-    *   - project structure -> artifacts, add artifact from "module with dependencies"
+    * Build a JAR to run a Spark application on the Docker cluster:
+    *
+    * Option A (sbt): Run `sbt package` from the project root.
+    *   The JAR will be at target/scala-2.13/spark-essentials_2.13-0.3.jar
+    *
+    * Option B (IntelliJ):
+    *   - Project Structure -> Artifacts, add artifact from "module with dependencies"
     *   - (important) check "copy to the output folder and link to manifest"
-    *   - (important) then from the generated folder path, delete so that the folder path ends in src/
+    *   - Build -> Build Artifacts... -> select the jar -> build
     *
-    * Build the JAR: Build -> Build Artifacts... -> select the jar -> build
-    * Copy the JAR and movies.json to spark-cluster/apps
+    * Copy the JAR and movies.json to spark-cluster/apps and spark-cluster/data respectively.
     * (the apps and data folders are mapped to /opt/spark-apps and /opt/spark-data in the containers)
-    *
-    *
-    * */
+    */
 
   /**
-    * How to run the Spark application on the Docker cluster
+    * UPDATE: Updated Docker commands for official images (container name, Spark path).
     *
-    * 1. Start the cluster
-    *   docker-compose up --scale spark-worker=3
+    * How to run the Spark application on the Docker cluster:
+    *
+    * 1. Start the cluster (from the repo root)
+    *   docker compose up --scale spark-worker=3
     *
     * 2. Connect to the master node
-    *   docker exec -it spark-cluster_spark-master_1 bash
+    *   docker exec -it spark-master bash
     *
     * 3. Run the spark-submit command
-    *   /spark/bin/spark-submit \
+    *   /opt/spark/bin/spark-submit \
     *     --class part6practical.TestDeployApp \
-    *     --master spark://(dockerID):7077 \
+    *     --master spark://spark-master:7077 \
     *     --deploy-mode client \
     *     --verbose \
-    *     --supervise \
-    *     spark-essentials.jar /opt/spark-data/movies.json /opt/spark-data/goodMovies
+    *     /opt/spark-apps/spark-essentials_2.13-0.3.jar /opt/spark-data/movies.json /opt/spark-data/goodMovies
     */
 }

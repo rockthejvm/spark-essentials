@@ -3,14 +3,15 @@ package part4sql
 import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql.functions._
 
-object SparkSql extends App {
+object SparkSql { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+
+  def main(args: Array[String]): Unit = {
 
   val spark = SparkSession.builder()
     .appName("Spark SQL Practice")
     .config("spark.master", "local")
     .config("spark.sql.warehouse.dir", "src/main/resources/warehouse")
-    // only for Spark 2.4 users:
-    // .config("spark.sql.legacy.allowCreatingManagedTableUsingNonemptyLocation", "true")
+    // UPDATE: removed obsolete Spark 2.4 legacy config comment
     .getOrCreate()
 
   val carsDF = spark.read
@@ -123,4 +124,5 @@ object SparkSql extends App {
       |limit 1
     """.stripMargin
   ).show()
+  }
 }

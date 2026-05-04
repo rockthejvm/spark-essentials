@@ -1,129 +1,88 @@
-*Apache Spark doesn't have its own system to organize files in a distributed way (the file system), so it requires
-external file systems to store and process large datasets. For this reason, programmers install Spark
-on top of Hadoop so that Spark's advanced analytics applications can make use of the data stored using the Hadoop Distributed
-File System (HDFS).*
+<!-- UPDATE: Rewritten for Spark 4.1.1 — JDK 21, Hadoop 3.4.x winutils, added WSL 2 recommendation,
+     removed unnecessary full-Hadoop setup steps, fixed contradictory JDK version references -->
 
-****Prerequisites:****
+# Setting Up Spark on Windows
 
-Before you start installing Hadoop on Windows, there are a few prerequisites that you need to have in place:
+## Recommended: Use WSL 2
 
-1. Java Development Kit (JDK) version 11 or higher
-2. Apache Hadoop distribution suitable for Windows
+The simplest way to run Spark on Windows is via **Windows Subsystem for Linux (WSL 2)** with Docker Desktop.
+With this approach you do not need Hadoop or winutils at all:
 
-**Step 1:**  *Install the Java Development Kit*
+1. Install [WSL 2](https://learn.microsoft.com/en-us/windows/wsl/install) (run `wsl --install` in PowerShell as admin)
+2. Install [Docker Desktop for Windows](https://www.docker.com/products/docker-desktop/) with the WSL 2 backend enabled
+3. Open your WSL terminal, clone this repo, and run `docker compose up --scale spark-worker=3`
+4. Open the project in IntelliJ (it can use the WSL JDK or a Windows JDK 17+)
 
-Hadoop is built using Java, so you’ll need to install the Java Development Kit (JDK) version 11
-or higher on your computer. You can download the JDK from the Oracle website.
-(https://www.oracle.com/in/java/technologies/javase/javase8-archive-downloads.html) Once the download is
-complete, run the installer and follow the instructions to install the JDK.
+If you prefer a native Windows setup without WSL, follow the steps below.
 
-**Step 2:** *Download the Hadoop distribution*
+---
 
-To install Hadoop on Windows, you’ll need to download the appropriate distribution from the
-Apache Hadoop website (https://hadoop.apache.org/releases.html).
-You’ll want to choose the distribution that is compatible with your version of Windows (hadoop-3.3.6) and click on binary.
-Once you’ve downloaded the distribution, extract files of hadoop-3.3.6.tar.gz and place under `C:\Hadoop`.
+## Native Windows Setup
 
-**Step 3:** *Set up the Environment Variables*
+*Apache Spark doesn't have its own distributed file system, so it relies on Hadoop libraries for file I/O
+even in local mode on Windows. You need `winutils.exe` and `hadoop.dll` for Spark to work correctly.*
 
-To use Java & Hadoop, you’ll need to set up some environment variables.
-This will allow you to run Java & Hadoop commands from any directory on your computer.
-To set up the environment variables, follow these steps:
+### Prerequisites
 
-1. Open the Start menu and search for “Environment Variables”.
-2. Click on “Edit the system environment variables”.
-3. Click on the “Environment Variables” button.
-4. Under “System Variables”, click on “New”.
-5. Enter “JAVA_HOME” as the variable name & the path to the directory where your java is installed (example- C:\Program Files\Java\jdk1.8.0) as the variable value.
-6. Click “OK”.
-7. Enter “HADOOP_HOME” as the variable name and the path to the directory where you extracted the Hadoop distribution (example- C:\hadoop) as the variable value.
-8. Click “OK”.
-9. Locate the “Path” variable in the “System Variables” list and click “Edit”.
-10. Add the following to the end of the “Variable value” field: `%JAVA_HOME%\bin; %HADOOP_HOME%\bin; %HADOOP_HOME%\sbin;`
-11. Click “OK” to close all the windows.
+1. **Java Development Kit (JDK) 17 or 21** (Spark 4.x does NOT support Java 8 or 11)
+2. The `winutils.exe` binary for Hadoop 3.4.x
 
-**Step 4:** *Install Hadoop native IO binary*
+### Step 1: Install JDK 21
 
-Clone or download the winutils repository (https://github.com/cdarlint/winutils/tree/master/hadoop-3.3.5/bin)
-and copy the contents of `hadoop-3.3.5/bin` into the extracted location of the Hadoop binary package.
-In our example, it will be `C:\Hadoop\bin`.
+Download and install [Eclipse Temurin JDK 21](https://adoptium.net/temurin/releases/?version=21) (recommended)
+or [Oracle JDK 21](https://www.oracle.com/java/technologies/downloads/).
 
-**Important Note:** The following steps are not necessary for Spark to run, the above is sufficient to work with Spark.
-However, you can proceed if you really want the entire Hadoop distribution working locally.
+During installation, check the option to set `JAVA_HOME` automatically, or do it manually in Step 3.
 
-**Step 5:** *Hadoop Configuration*
+### Step 2: Download Hadoop winutils
 
-To configure Hadoop, you’ll need to modify a few configuration files.
-These files are located in the `etc/hadoop` directory of the Hadoop folder.
-Open each of the following files in a text editor and make the changes described below and save the files:
+Download `winutils.exe` and `hadoop.dll` for Hadoop 3.4.x from the
+[kontext-tech/winutils](https://github.com/kontext-tech/winutils) repository.
 
-1. `core-site.xml`: Add the following lines to the file inside `<configuration>` like this:
+1. Go to `https://github.com/kontext-tech/winutils`
+2. Navigate to the `hadoop-3.4.0/bin/` folder
+3. Download `winutils.exe` and `hadoop.dll`
+4. Create the folder `C:\hadoop\bin`
+5. Place both files into `C:\hadoop\bin`
+
+### Step 3: Set Environment Variables
+
+1. Open the Start menu and search for **"Environment Variables"**
+2. Click **"Edit the system environment variables"**
+3. Click the **"Environment Variables"** button
+4. Under **"System Variables"**:
+   - Click **"New"** and add:
+     - Variable name: `JAVA_HOME`
+     - Variable value: the path to your JDK installation (e.g., `C:\Program Files\Eclipse Adoptium\jdk-21.0.6.7-hotspot`)
+   - Click **"New"** again and add:
+     - Variable name: `HADOOP_HOME`
+     - Variable value: `C:\hadoop`
+5. Find the **"Path"** variable in the System Variables list and click **"Edit"**
+6. Add these two entries:
+   - `%JAVA_HOME%\bin`
+   - `%HADOOP_HOME%\bin`
+7. Click **"OK"** to close all windows
+
+### Step 4: Verify
+
+Open a **new** Command Prompt or PowerShell window and run:
+
 ```
-<configuration>
-  <property>
-    <name>fs.defaultFS</name>
-    <value>hdfs://localhost:9000</value>
-  </property>
-</configuration>
-```
-
-2. Open the file `hadoop-env.cmd` (windows command script) and replace `set JAVA_HOME=%JAVA_HOME%`
-   with the Java installation location, e.g. `set JAVA_HOME=C:\Program Files\Java\jdk1.11.0`
-   or if it doesn't work then use `set JAVA_HOME=C:\Progra~1\Java\jdk1.11.0`. Also go to bottom of the file
-   and give your name to this variable: `set HADOOP_IDENT_STRING=RockTheJVM`.
-
-
-3. `hdfs-site.xml`: First create these folders - `C:/hadoop/data/dfs/datanode` and `C:/hadoop/data/dfs/datanode`
-   Add the following lines to the file inside `<configuration>` like this:
-```
-<property>
-    <name>dfs.replication</name>
-    <value>1</value>
-</property>
-<property>
-    <name>dfs.namenode.name.dir</name>
-    <value>file:///C:/hadoop/data/dfs/namenode</value>
-</property>
-<property>
-    <name>dfs.datanode.data.dir</name>
-    <value>file:///C:/hadoop/data/dfs/datanode</value>
-</property>
+java -version
+winutils.exe chmod 777 /tmp/hive
 ```
 
-4. `mapred-site.xml`: Add the following lines to the file inside `<configuration>` like this:
-```
-<configuration>
-   <property>
-       <name>mapreduce.framework.name</name>
-       <value>yarn</value>
-   </property>
-</configuration>
-```
+If both commands succeed without errors, you're ready to run Spark.
 
-5. `yarn-site.xml`: Add the following lines to the file inside `<configuration>` like this:
-```
-<configuration>
-<property>
-<name>yarn.nodemanager.aux-services</name>
-<value>mapreduce_shuffle</value>
-<description>Yarn Node Manager Aux Service</description>
-</property>
-<configuration>
-```
+### That's It
 
-**Step 6:** **If you want to start Hadoop:**
+The steps above are sufficient for Spark to run in local mode for this course.
+You do **not** need to install or configure a full Hadoop distribution (HDFS, YARN, etc.).
 
-To start Hadoop, open a command prompt and navigate to the directory where you extracted the Hadoop distribution.
-Then, run the following commands:
-```
-cd sbin
-start-all.cmd
-```
-This will start the Hadoop daemons and launch the web interface. You can access the web interface by going to http://localhost:9000/ in your web browser.
+---
 
-****Conclusion:****
+**Troubleshooting:**
 
-Setting up Hadoop on a Windows system can pose some challenges, but by following this comprehensive guide,
-you'll be able to configure it smoothly and quickly. Hadoop is a robust solution for handling extensive datasets and executing distributed applications,
-making it a favored choice for numerous enterprises and institutions worldwide.
-Whether you're a data scientist or a software developer, integrating Hadoop into your toolkit is highly beneficial.
+- `java.io.IOException: Could not locate executable winutils.exe` — `HADOOP_HOME` is not set correctly or `winutils.exe` is not in `%HADOOP_HOME%\bin`
+- `UnsatisfiedLinkError: hadoop.dll` — make sure `hadoop.dll` is also in `%HADOOP_HOME%\bin` and `%HADOOP_HOME%\bin` is on your PATH
+- `UnsupportedClassVersionError` — you are running an older JDK (8 or 11). Spark 4.x requires JDK 17 or 21.

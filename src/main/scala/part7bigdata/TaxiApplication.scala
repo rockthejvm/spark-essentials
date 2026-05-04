@@ -3,7 +3,9 @@ package part7bigdata
 import org.apache.spark.sql.{Column, SparkSession}
 import org.apache.spark.sql.functions._
 
-object TaxiApplication extends App {
+object TaxiApplication { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+
+  def main(args: Array[String]): Unit = {
 
   val spark = SparkSession.builder()
     .config("spark.master", "local")
@@ -132,5 +134,5 @@ object TaxiApplication extends App {
   val totalProfitDF = groupingEstimateEconomicImpactDF.select(sum(col("totalImpact")).as("total"))
   // 40k/day = 12 million/year!!!
 
-
+  }
 }

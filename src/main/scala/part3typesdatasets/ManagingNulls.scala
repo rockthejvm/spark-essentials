@@ -3,7 +3,9 @@ package part3typesdatasets
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
-object ManagingNulls extends App {
+object ManagingNulls { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+
+  def main(args: Array[String]): Unit = {
 
   val spark = SparkSession.builder()
     .appName("Managing Nulls")
@@ -50,4 +52,5 @@ object ManagingNulls extends App {
     "nullif(Rotten_Tomatoes_Rating, IMDB_Rating * 10) as nullif", // returns null if the two values are EQUAL, else first value
     "nvl2(Rotten_Tomatoes_Rating, IMDB_Rating * 10, 0.0) as nvl2" // if (first != null) second else third
   ).show()
+  }
 }

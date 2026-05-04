@@ -3,7 +3,9 @@ package part2dataframes
 import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql.types._
 
-object DataSources extends App {
+object DataSources { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+
+  def main(args: Array[String]): Unit = {
 
   val spark = SparkSession.builder()
     .appName("Data Sources and Formats")
@@ -132,4 +134,5 @@ object DataSources extends App {
     .option("password", password)
     .option("dbtable", "public.movies")
     .save()
+  }
 }

@@ -9,7 +9,9 @@ import org.apache.spark.sql.types._
   *
   * Daniel @ Rock the JVM
   */
-object Playground extends App {
+object Playground { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+
+  def main(args: Array[String]): Unit = {
 
   /**
     * This creates a SparkSession, which will be used to operate on the DataFrames that we create.
@@ -69,4 +71,5 @@ object Playground extends App {
   carsDF.printSchema()
   carsDF.show()
 
+  }
 }

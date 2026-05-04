@@ -3,7 +3,9 @@ package part2dataframes
 import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.types._
 
-object DataFramesBasics extends App {
+object DataFramesBasics { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+
+  def main(args: Array[String]): Unit = {
 
   // creating a SparkSession
   val spark = SparkSession.builder()
@@ -104,4 +106,5 @@ object DataFramesBasics extends App {
     .load("src/main/resources/data/movies.json")
   moviesDF.printSchema()
   println(s"The Movies DF has ${moviesDF.count()} rows")
+  }
 }

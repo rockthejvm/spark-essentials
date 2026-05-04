@@ -7,22 +7,21 @@ object SparkShell extends App {
     */
 
   /**
+    * UPDATE: updated for official Apache Spark Docker images (no more custom build step)
     *
     * To setup the Spark cluster in Docker:
     *
-    *   1. Build the Docker containers
-    *       ./build-images.sh
-    *   2. Start a cluster with one master and 3 workers
-    *       docker-compose up --scale spark-worker=3
+    *   1. Start a cluster with one master and 3 workers (from the repo root)
+    *       docker compose up --scale spark-worker=3
     *
     * To open the Spark SQL shell in the master container:
     *   1. In another terminal window/tab, connect to the Docker container and open a regular shell
-    *       docker exec -it docker-spark-cluster_spark-master_1 bash
+    *       docker exec -it spark-master bash
     *   2. Execute the Spark SQL shell
-    *       /spark/bin/spark-sql
+    *       /opt/spark/bin/spark-sql
     *
     *  If you want to inspect the files that Spark SQL writes, open another terminal window/tab
-    *       docker exec -it docker-spark-cluster_spark-master_1 bash
+    *       docker exec -it spark-master bash
     *
     * The Spark SQL shell allows you to write any SQL statement, from creating databases and tables, to selecting, to creating views etc.
     *

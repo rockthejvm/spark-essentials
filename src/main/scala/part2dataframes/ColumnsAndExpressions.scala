@@ -3,7 +3,9 @@ package part2dataframes
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{col, column, expr}
 
-object ColumnsAndExpressions extends App {
+object ColumnsAndExpressions { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+
+  def main(args: Array[String]): Unit = {
 
   val spark = SparkSession.builder()
     .appName("DF Columns and Expressions")
@@ -22,12 +24,13 @@ object ColumnsAndExpressions extends App {
 
   // various select methods
   import spark.implicits._
+  // UPDATE: removed 'Year (Scala Symbol syntax, deprecated in 2.13 and removed in Scala 3)
   carsDF.select(
     carsDF.col("Name"),
     col("Acceleration"),
     column("Weight_in_lbs"),
-    'Year, // Scala Symbol, auto-converted to column
-    $"Horsepower", // fancier interpolated string, returns a Column object
+    $"Year", // interpolated string, returns a Column object
+    $"Horsepower", // same as above
     expr("Origin") // EXPRESSION
   )
 
@@ -136,4 +139,5 @@ object ColumnsAndExpressions extends App {
     .where("Major_Genre = 'Comedy' and IMDB_Rating > 6")
 
   comediesDF3.show
+  }
 }

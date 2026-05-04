@@ -1,14 +1,44 @@
-version: '2'
+# UPDATE: Replaced separate Postgres + custom Spark cluster compose files with a single unified file
+# using official Apache Spark Docker images — no more custom Dockerfiles or build-images.sh needed.
+# Usage: docker compose up --scale spark-worker=3
 
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:17
     container_name: postgres
     environment:
-      - "TZ=Europe/Amsterdam"
-      - "POSTGRES_USER=docker"
-      - "POSTGRES_PASSWORD=docker"
+      TZ: "Europe/Amsterdam"
+      POSTGRES_USER: "docker"
+      POSTGRES_PASSWORD: "docker"
     ports:
       - "5432:5432"
     volumes:
       - "./sql:/docker-entrypoint-initdb.d"
+
+  spark-master:
+    image: apache/spark:4.1.1-scala
+    container_name: spark-master
+    command: /opt/spark/sbin/start-master.sh
+    environment:
+      SPARK_MASTER_HOST: spark-master
+      SPARK_NO_DAEMONIZE: "true"
+    ports:
+      - "7077:7077"
+      - "9090:8080"
+      - "4040:4040"
+    volumes:
+      - ./spark-cluster/apps:/opt/spark-apps
+      - ./spark-cluster/data:/opt/spark-data
+
+  spark-worker:
+    image: apache/spark:4.1.1-scala
+    command: /opt/spark/sbin/start-worker.sh spark://spark-master:7077
+    depends_on:
+      - spark-master
+    environment:
+      SPARK_WORKER_CORES: 1
+      SPARK_WORKER_MEMORY: 1G
+      SPARK_NO_DAEMONIZE: "true"
+    volumes:
+      - ./spark-cluster/apps:/opt/spark-apps
+      - ./spark-cluster/data:/opt/spark-data

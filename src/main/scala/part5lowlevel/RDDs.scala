@@ -5,7 +5,9 @@ import org.apache.spark.sql.functions._
 
 import scala.io.Source
 
-object RDDs extends App {
+object RDDs { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+
+  def main(args: Array[String]): Unit = {
 
   val spark = SparkSession.builder()
     .appName("Introduction to RDDs")
@@ -132,6 +134,7 @@ object RDDs extends App {
 
   avgRatingByGenreRDD.toDF.show
   moviesRDD.toDF.groupBy(col("genre")).avg("rating").show
+  }
 }
 
 /*
