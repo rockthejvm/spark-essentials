@@ -56,8 +56,8 @@ object TestDeployApp {
     *   - (important) check "copy to the output folder and link to manifest"
     *   - Build -> Build Artifacts... -> select the jar -> build
     *
-    * Copy the JAR and movies.json to spark-cluster/apps and spark-cluster/data respectively.
-    * (the apps and data folders are mapped to /opt/spark-apps and /opt/spark-data in the containers)
+    * Copy the JAR and movies.json to spark-apps/.
+    * (the spark-apps folder is mapped to /opt/spark-apps in the containers)
     */
 
   /**
@@ -77,6 +77,6 @@ object TestDeployApp {
     *     --master spark://spark-master:7077 \
     *     --deploy-mode client \
     *     --verbose \
-    *     /opt/spark-apps/spark-essentials_2.13-0.3.jar /opt/spark-data/movies.json /opt/spark-data/goodMovies
+    *     /opt/spark-apps/spark-essentials_2.13-0.3.jar /opt/spark-apps/movies.json /opt/spark-apps/goodMovies
     */
 }

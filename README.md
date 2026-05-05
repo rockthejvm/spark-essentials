@@ -27,11 +27,7 @@ This repository contains the code we wrote during [Rock the JVM's Spark Essentia
 ### Connecting to PostgreSQL
 
 ```bash
-# Linux/Mac
-./psql.sh
-
-# Windows
-psql.bat
+docker exec -it postgres psql -U docker -d rtjvm
 ```
 
 ### Connecting to the Spark Cluster
@@ -50,16 +46,15 @@ docker exec -it spark-master bash
 ### Submitting a JAR to the Cluster
 
 1. Build the JAR: `sbt package` (or use IntelliJ Build Artifacts)
-2. Copy the JAR to `spark-cluster/apps/`
-3. Copy data files to `spark-cluster/data/`
-4. Submit from inside the master container:
+2. Copy the JAR and any data files to `spark-apps/`
+3. Submit from inside the master container:
 
 ```bash
 docker exec -it spark-master /opt/spark/bin/spark-submit \
   --class part6practical.TestDeployApp \
   --master spark://spark-master:7077 \
   --deploy-mode client \
-  /opt/spark-apps/spark-essentials_2.13-0.3.jar /opt/spark-data/movies.json /opt/spark-data/goodMovies
+  /opt/spark-apps/spark-essentials_2.13-0.3.jar /opt/spark-apps/movies.json /opt/spark-apps/goodMovies
 ```
 
 ## How to use the code

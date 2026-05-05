@@ -27,8 +27,7 @@ services:
       - "9090:8080"
       - "4040:4040"
     volumes:
-      - ./spark-cluster/apps:/opt/spark-apps
-      - ./spark-cluster/data:/opt/spark-data
+      - ./spark-apps:/opt/spark-apps
 
   spark-worker:
     image: apache/spark:4.1.1-scala
@@ -40,5 +39,4 @@ services:
       SPARK_WORKER_MEMORY: 1G
       SPARK_NO_DAEMONIZE: "true"
     volumes:
-      - ./spark-cluster/apps:/opt/spark-apps
-      - ./spark-cluster/data:/opt/spark-data
+      - ./spark-apps:/opt/spark-apps
