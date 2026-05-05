@@ -778,3 +778,83 @@ object SparkSQLNewFeatures {
 | **Total** | **25** | **11** | **2** |
 
 **Net result:** 291 lines added, 561 lines deleted across 36 changed files.
+
+---
+
+## Video Recording Breakdown
+
+### Videos to Record (new)
+
+**1. NEW — Variant Type (`part8spark4/VariantType.scala`)**
+Entirely new lesson. Covers `parse_json`, `variant_get`, `try_variant_get`, `schema_of_variant`, `is_variant_null` — both DataFrame API and SQL. Two exercises included.
+
+**2. NEW — Spark SQL New Features (`part8spark4/SparkSQLNewFeatures.scala`)**
+Entirely new lesson. ANSI mode (now default), pipe syntax (`|>`), SQL UDFs (`CREATE FUNCTION`), session variables (`DECLARE`), recursive CTEs (`WITH RECURSIVE`), and collations. Two exercises included.
+
+**3. NEW — UDFs and UDAFs (`part3typesdatasets/UDFsAndUDAFs.scala`)**
+Entirely new lesson. Covers Scala UDFs (DataFrame API + SQL registration), type safety considerations, and the Aggregator-based UDAF API (the old `UserDefinedAggregateFunction` was removed in Spark 4.x). Two exercises included.
+
+### Videos to Re-record or Heavily Patch
+
+**4. Setup / Installation Video**
+The setup experience changed significantly:
+- JDK requirement is now 17 or 21 (was 8/11/17)
+- Docker setup is now a single `docker compose up` — no more `build-images.sh`, no more custom Dockerfiles, no more `dos2unix` troubleshooting
+- Windows setup is simpler (WSL 2 recommended path, updated winutils)
+Students will see a completely different onboarding flow.
+
+**5. Spark Shell (`part4sql/SparkShell.scala`)**
+All the Docker commands typed on camera changed:
+- `./build-images.sh` step is gone
+- Container name changed from `docker-spark-cluster_spark-master_1` → `spark-master`
+- Spark path changed from `/spark/bin/spark-sql` → `/opt/spark/bin/spark-sql`
+Students following along will hit errors if they watch the old video.
+
+**6. Test Deploy / Cluster Submission (`part6practical/TestDeployApp.scala`)**
+The deployment workflow changed:
+- `sbt package` is now offered as an option alongside IntelliJ artifacts
+- Container name and `spark-submit` path changed
+- `--supervise` flag removed
+- JAR name changed (`spark-essentials_2.13-0.3.jar`)
+This is the lesson where students actually type these commands, so accuracy matters.
+
+### Videos to Lightly Patch (brief mention on camera or annotation)
+
+**7. Columns and Expressions (`part2dataframes/ColumnsAndExpressions.scala`)**
+The `'Year` Scala Symbol syntax was removed — you used it on camera to show "various ways to select columns." The replacement is `$"Year"`, which means you lose one distinct method from the demo. Minor but visible on screen.
+
+**8. Spark SQL (`part4sql/SparkSql.scala`)**
+The Spark 2.4 legacy comment is gone, and `CREATE TABLE` without `USING` now creates a Parquet table instead of a Hive table. ANSI mode being on by default means division by zero or bad casts throw errors — worth a quick mention.
+
+**9. Spark Job Anatomy (`part6practical/SparkJobAnatomy.scala`)**
+Same container name and Docker command changes as Spark Shell. If you showed the cluster startup and `docker exec` on camera, those commands are different now.
+
+### Videos That Need NO Changes (12 lessons)
+
+These lessons have only the mechanical `extends App` → `def main` change, which doesn't affect what's shown on screen:
+
+| Lesson | Why it's fine |
+|---|---|
+| Scala Recap | Pure Scala, no Spark APIs |
+| DataFrames Basics | All APIs identical |
+| Data Sources | Read/write APIs unchanged |
+| Aggregations | All aggregation functions unchanged |
+| Joins | All join types unchanged |
+| Common Types | lit, booleans, strings unchanged |
+| Complex Types | Dates, structs, arrays unchanged |
+| Datasets | Dataset/Encoder APIs unchanged |
+| Managing Nulls | coalesce, na.fill, na.drop unchanged |
+| RDDs | RDD API unchanged |
+| Taxi Application | All DataFrame operations unchanged |
+| Taxi Economic Impact | All DataFrame operations unchanged |
+
+### Summary Table
+
+| Action | Count | Lessons |
+|---|---|---|
+| Brand new video | 3 | Variant Type, SQL New Features, UDFs & UDAFs |
+| Re-record or heavy patch | 3 | Setup, Spark Shell, Test Deploy |
+| Light patch (mention on camera) | 3 | Columns & Expressions, Spark SQL, Job Anatomy |
+| No change needed | 12 | Everything else |
+
+**Total new recordings: 3. Total re-records/patches: up to 6. Twelve lessons untouched.**
