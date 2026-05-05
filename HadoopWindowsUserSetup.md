@@ -34,16 +34,12 @@ or [Oracle JDK 21](https://www.oracle.com/java/technologies/downloads/).
 
 During installation, check the option to set `JAVA_HOME` automatically, or do it manually in Step 3.
 
-### Step 2: Download Hadoop winutils
+### Step 2: Set up Hadoop winutils
 
-Download `winutils.exe` and `hadoop.dll` for Hadoop 3.4.x from the
-[kontext-tech/winutils](https://github.com/kontext-tech/winutils) repository.
+The required `winutils.exe` and `hadoop.dll` (Hadoop 3.4.0) are included in this repository under `windows/`.
 
-1. Go to `https://github.com/kontext-tech/winutils`
-2. Navigate to the `hadoop-3.4.0/bin/` folder
-3. Download `winutils.exe` and `hadoop.dll`
-4. Create the folder `C:\hadoop\bin`
-5. Place both files into `C:\hadoop\bin`
+1. Create the folder `C:\hadoop\bin`
+2. Copy `windows\winutils.exe` and `windows\hadoop.dll` from this repo into `C:\hadoop\bin`
 
 ### Step 3: Set Environment Variables
 
