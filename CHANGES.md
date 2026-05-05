@@ -27,8 +27,9 @@ Each modified file includes a diff showing exactly what changed. New files are s
    - [SparkJobAnatomy.scala — Container names](#sparkjobanatomyscala)
    - [TestDeployApp.scala — Deploy instructions](#testdeployappscala)
 6. [New Lessons](#6-new-lessons)
-   - [part8spark4/VariantType.scala](#varianttypescala)
-   - [part8spark4/SparkSQLNewFeatures.scala](#sparksqlnewfeaturesscala)
+   - [part3typesdatasets/VariantType.scala](#varianttypescala)
+   - [part3typesdatasets/UDFsAndUDAFs.scala](#udfsandudafsscala)
+   - [part4sql/SparkSqlAdvanced.scala](#sparksqladvancedscala)
 
 ---
 
@@ -493,17 +494,16 @@ The same pattern was applied to each file:
 
 ### VariantType.scala
 
-**New file:** `src/main/scala/part8spark4/VariantType.scala`
+**New file:** `src/main/scala/part3typesdatasets/VariantType.scala`
 
-Covers the VARIANT data type (Spark 4.0's headline feature for semi-structured data).
+Covers the VARIANT data type — Spark's native semi-structured data support. Belongs in part3 alongside ComplexTypes and Datasets.
 
 ```scala
-package part8spark4
+package part3typesdatasets
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
-// NEW LESSON: Spark 4.x VARIANT data type — native semi-structured data support
 object VariantType {
 
   def main(args: Array[String]): Unit = {
@@ -515,8 +515,8 @@ object VariantType {
 
   import spark.implicits._
 
-  // The VARIANT type is new in Spark 4.0.
-  // It stores JSON-like data in an optimized binary format — much faster than storing JSON as strings.
+  // The VARIANT type stores JSON-like data in an optimized binary format —
+  // much faster than storing JSON as strings, and no predefined schema required.
 
   // 1 - Creating VARIANT data from JSON strings
   val jsonDF = Seq(
@@ -590,20 +590,27 @@ object VariantType {
 }
 ```
 
-### SparkSQLNewFeatures.scala
+### UDFsAndUDAFs.scala
 
-**New file:** `src/main/scala/part8spark4/SparkSQLNewFeatures.scala`
+**New file:** `src/main/scala/part3typesdatasets/UDFsAndUDAFs.scala`
 
-Covers ANSI mode, pipe syntax (`|>`), SQL UDFs, session variables, recursive CTEs, and collations.
+Covers User-Defined Functions and User-Defined Aggregate Functions. The old `UserDefinedAggregateFunction` class was removed in Spark 4.0 — UDAFs now use the type-safe `Aggregator[IN, BUF, OUT]` API. Belongs in part3 alongside Datasets and CommonTypes.
+
+(Full source in `src/main/scala/part3typesdatasets/UDFsAndUDAFs.scala` — too long to inline here.)
+
+### SparkSqlAdvanced.scala
+
+**New file:** `src/main/scala/part4sql/SparkSqlAdvanced.scala`
+
+Covers ANSI mode, pipe syntax (`|>`), SQL UDFs, session variables, recursive CTEs, and collations. Belongs in part4 alongside SparkSql and SparkShell.
 
 ```scala
-package part8spark4
+package part4sql
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
-// NEW LESSON: Spark 4.x SQL features — ANSI mode, pipe syntax, SQL UDFs, session variables, recursive CTEs, collations
-object SparkSQLNewFeatures {
+object SparkSqlAdvanced {
 
   def main(args: Array[String]): Unit = {
 
@@ -785,14 +792,14 @@ object SparkSQLNewFeatures {
 
 ### Videos to Record (new)
 
-**1. NEW — Variant Type (`part8spark4/VariantType.scala`)**
-Entirely new lesson. Covers `parse_json`, `variant_get`, `try_variant_get`, `schema_of_variant`, `is_variant_null` — both DataFrame API and SQL. Two exercises included.
+**1. NEW — The Variant Type (`part3typesdatasets/VariantType.scala`)**
+Entirely new lesson in the Types & Datasets section. Covers `parse_json`, `variant_get`, `try_variant_get`, `schema_of_variant`, `is_variant_null` — both DataFrame API and SQL. Two exercises included.
 
-**2. NEW — Spark SQL New Features (`part8spark4/SparkSQLNewFeatures.scala`)**
-Entirely new lesson. ANSI mode (now default), pipe syntax (`|>`), SQL UDFs (`CREATE FUNCTION`), session variables (`DECLARE`), recursive CTEs (`WITH RECURSIVE`), and collations. Two exercises included.
+**2. NEW — UDFs and UDAFs (`part3typesdatasets/UDFsAndUDAFs.scala`)**
+Entirely new lesson in the Types & Datasets section. Covers Scala UDFs (DataFrame API + SQL registration), type safety considerations, and the Aggregator-based UDAF API (the old `UserDefinedAggregateFunction` was removed in Spark 4.x). Two exercises included.
 
-**3. NEW — UDFs and UDAFs (`part3typesdatasets/UDFsAndUDAFs.scala`)**
-Entirely new lesson. Covers Scala UDFs (DataFrame API + SQL registration), type safety considerations, and the Aggregator-based UDAF API (the old `UserDefinedAggregateFunction` was removed in Spark 4.x). Two exercises included.
+**3. NEW — Advanced Spark SQL (`part4sql/SparkSqlAdvanced.scala`)**
+Entirely new lesson in the SQL section. ANSI mode explanation, pipe syntax (`|>`), SQL UDFs (`CREATE FUNCTION`), session variables (`DECLARE`), recursive CTEs (`WITH RECURSIVE`), and collations. Two exercises included.
 
 ### Videos to Re-record or Heavily Patch
 
@@ -852,7 +859,7 @@ These lessons have only the mechanical `extends App` → `def main` change, whic
 
 | Action | Count | Lessons |
 |---|---|---|
-| Brand new video | 3 | Variant Type, SQL New Features, UDFs & UDAFs |
+| Brand new video | 3 | Variant Type, UDFs & UDAFs, Advanced Spark SQL |
 | Re-record or heavy patch | 3 | Setup, Spark Shell, Test Deploy |
 | Light patch (mention on camera) | 3 | Columns & Expressions, Spark SQL, Job Anatomy |
 | No change needed | 12 | Everything else |

@@ -1,9 +1,8 @@
-package part8spark4
+package part3typesdatasets
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
-// NEW LESSON: Spark 4.x VARIANT data type — native semi-structured data support
 object VariantType {
 
   def main(args: Array[String]): Unit = {
@@ -15,8 +14,8 @@ object VariantType {
 
   import spark.implicits._
 
-  // The VARIANT type is new in Spark 4.0.
-  // It stores JSON-like data in an optimized binary format — much faster than storing JSON as strings.
+  // The VARIANT type stores JSON-like data in an optimized binary format —
+  // much faster than storing JSON as strings, and no predefined schema required.
 
   // 1 - Creating VARIANT data from JSON strings
   val jsonDF = Seq(

@@ -1,15 +1,14 @@
-package part8spark4
+package part4sql
 
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
-// NEW LESSON: Spark 4.x SQL features — ANSI mode, pipe syntax, SQL UDFs, session variables, recursive CTEs, collations
-object SparkSQLNewFeatures {
+object SparkSqlAdvanced {
 
   def main(args: Array[String]): Unit = {
 
   val spark = SparkSession.builder()
-    .appName("Spark SQL 4.x Features")
+    .appName("Advanced Spark SQL")
     .config("spark.master", "local")
     .config("spark.sql.warehouse.dir", "src/main/resources/warehouse")
     .getOrCreate()
@@ -25,15 +24,14 @@ object SparkSQLNewFeatures {
   moviesDF.createOrReplaceTempView("movies")
 
   // ============================================================
-  // 1 - ANSI mode is now ON by default in Spark 4.x
+  // 1 - ANSI mode
   // ============================================================
-  // In Spark 3.x, spark.sql.ansi.enabled defaulted to false.
-  // Now it's true, meaning:
-  //   - Division by zero throws SparkArithmeticException (instead of returning null)
-  //   - Invalid casts throw errors (instead of returning null)
-  //   - Arithmetic overflow is caught
-  // This is the SQL standard behavior — correct and safer for production code.
-
+  // spark.sql.ansi.enabled is ON by default.
+  // This means Spark follows the SQL standard strictly:
+  //   - division by zero throws an error (instead of returning null)
+  //   - invalid casts throw an error (instead of returning null)
+  //   - arithmetic overflow is caught
+  // This is the correct behavior — you get clear errors instead of silent nulls.
   println(s"ANSI mode enabled: ${spark.conf.get("spark.sql.ansi.enabled")}")
 
   // ============================================================
@@ -56,7 +54,7 @@ object SparkSQLNewFeatures {
   // ============================================================
   // 3 - SQL User-Defined Functions
   // ============================================================
-  // You can now define reusable functions directly in SQL — no Scala/Python UDF registration needed.
+  // Define reusable functions directly in SQL — no Scala/Python UDF registration needed.
   spark.sql("CREATE FUNCTION kg_to_lbs(kg DOUBLE) RETURNS DOUBLE RETURN kg * 2.20462")
   spark.sql(
     """
@@ -94,7 +92,7 @@ object SparkSQLNewFeatures {
   // ============================================================
   // 5 - Recursive CTEs
   // ============================================================
-  // Generate sequences, traverse hierarchies, and more — a long-awaited SQL feature.
+  // Generate sequences, traverse hierarchies, and more.
 
   // Simple: generate numbers 1 to 10
   spark.sql(
