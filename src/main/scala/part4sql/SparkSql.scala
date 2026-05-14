@@ -3,7 +3,7 @@ package part4sql
 import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql.functions._
 
-object SparkSql { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+object SparkSql {
 
   def main(args: Array[String]): Unit = {
 
@@ -11,7 +11,7 @@ object SparkSql { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, r
     .appName("Spark SQL Practice")
     .config("spark.master", "local")
     .config("spark.sql.warehouse.dir", "src/main/resources/warehouse")
-    // UPDATE: removed obsolete Spark 2.4 legacy config comment
+
     .getOrCreate()
 
   val carsDF = spark.read

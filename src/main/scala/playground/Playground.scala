@@ -9,7 +9,7 @@ import org.apache.spark.sql.types._
   *
   * Daniel @ Rock the JVM
   */
-object Playground { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+object Playground {
 
   def main(args: Array[String]): Unit = {
 

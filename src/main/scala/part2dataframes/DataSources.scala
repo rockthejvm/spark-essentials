@@ -3,7 +3,7 @@ package part2dataframes
 import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql.types._
 
-object DataSources { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+object DataSources {
 
   def main(args: Array[String]): Unit = {
 

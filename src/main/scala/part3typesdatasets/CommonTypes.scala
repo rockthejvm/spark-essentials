@@ -4,7 +4,7 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.FloatType
 
-object CommonTypes { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+object CommonTypes {
 
   def main(args: Array[String]): Unit = {
 

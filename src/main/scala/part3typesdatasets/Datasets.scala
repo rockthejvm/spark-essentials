@@ -6,7 +6,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, Encoders, SparkSession}
 import org.apache.spark.sql.functions._
 
 
-object Datasets { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+object Datasets {
 
   def main(args: Array[String]): Unit = {
 

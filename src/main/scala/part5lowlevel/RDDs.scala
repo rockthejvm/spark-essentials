@@ -5,7 +5,7 @@ import org.apache.spark.sql.functions._
 
 import scala.io.Source
 
-object RDDs { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+object RDDs {
 
   def main(args: Array[String]): Unit = {
 

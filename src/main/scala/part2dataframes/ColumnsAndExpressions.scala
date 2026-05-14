@@ -3,7 +3,7 @@ package part2dataframes
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{col, column, expr}
 
-object ColumnsAndExpressions { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+object ColumnsAndExpressions {
 
   def main(args: Array[String]): Unit = {
 
@@ -24,7 +24,7 @@ object ColumnsAndExpressions { // UPDATE: replaced "extends App" (deprecated in 
 
   // various select methods
   import spark.implicits._
-  // UPDATE: removed 'Year (Scala Symbol syntax, deprecated in 2.13 and removed in Scala 3)
+
   carsDF.select(
     carsDF.col("Name"),
     col("Acceleration"),

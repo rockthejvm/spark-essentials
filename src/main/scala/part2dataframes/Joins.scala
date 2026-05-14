@@ -3,7 +3,7 @@ package part2dataframes
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{expr, max, col}
 
-object Joins { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+object Joins {
 
   def main(args: Array[String]): Unit = {
 

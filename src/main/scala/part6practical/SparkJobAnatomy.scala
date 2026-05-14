@@ -2,7 +2,7 @@ package part6practical
 
 import org.apache.spark.sql.SparkSession
 
-object SparkJobAnatomy { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+object SparkJobAnatomy {
 
   def main(args: Array[String]): Unit = {
 
@@ -26,7 +26,7 @@ object SparkJobAnatomy { // UPDATE: replaced "extends App" (deprecated in Scala 
 
   import spark.implicits._
 
-  // UPDATE: updated Docker commands for official Spark images and docker compose v2
+
   // start cluster
   // docker compose up --scale spark-worker=3
   // in another terminal: docker exec -it spark-master bash

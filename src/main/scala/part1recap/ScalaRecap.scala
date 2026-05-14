@@ -3,7 +3,7 @@ package part1recap
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
-object ScalaRecap { // UPDATE: replaced "extends App" (deprecated in Scala 2.13, removed in Scala 3) with def main
+object ScalaRecap {
 
   def main(args: Array[String]): Unit = {
 
