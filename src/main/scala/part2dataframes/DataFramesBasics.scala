@@ -5,106 +5,106 @@ import org.apache.spark.sql.types._
 
 object DataFramesBasics {
 
-  def main(args: Array[String]): Unit = {
-
   // creating a SparkSession
   val spark = SparkSession.builder()
     .appName("DataFrames Basics")
     .config("spark.master", "local")
     .getOrCreate()
 
-  // reading a DF
-  val firstDF = spark.read
-    .format("json")
-    .option("inferSchema", "true")
-    .load("src/main/resources/data/cars.json")
 
-  // showing a DF
-  firstDF.show()
-  firstDF.printSchema()
+  def main(args: Array[String]): Unit = {
+    // reading a DF
+    val firstDF = spark.read
+      .format("json")
+      .option("inferSchema", "true")
+      .load("src/main/resources/data/cars.json")
 
-  // get rows
-  firstDF.take(10).foreach(println)
+    // showing a DF
+    firstDF.show()
+    firstDF.printSchema()
 
-  // spark types
-  val longType = LongType
+    // get rows
+    firstDF.take(10).foreach(println)
 
-  // schema
-  val carsSchema = StructType(Array(
-    StructField("Name", StringType),
-    StructField("Miles_per_Gallon", DoubleType),
-    StructField("Cylinders", LongType),
-    StructField("Displacement", DoubleType),
-    StructField("Horsepower", LongType),
-    StructField("Weight_in_lbs", LongType),
-    StructField("Acceleration", DoubleType),
-    StructField("Year", StringType),
-    StructField("Origin", StringType)
-  ))
+    // spark types
+    val longType = LongType
 
-  // obtain a schema
-  val carsDFSchema = firstDF.schema
+    // schema
+    val carsSchema = StructType(Array(
+      StructField("Name", StringType),
+      StructField("Miles_per_Gallon", DoubleType),
+      StructField("Cylinders", LongType),
+      StructField("Displacement", DoubleType),
+      StructField("Horsepower", LongType),
+      StructField("Weight_in_lbs", LongType),
+      StructField("Acceleration", DoubleType),
+      StructField("Year", StringType),
+      StructField("Origin", StringType)
+    ))
 
-  // read a DF with your schema
-  val carsDFWithSchema = spark.read
-    .format("json")
-    .schema(carsDFSchema)
-    .load("src/main/resources/data/cars.json")
+    // obtain a schema
+    val carsDFSchema = firstDF.schema
 
-  // create rows by hand
-  val myRow = Row("chevrolet chevelle malibu",18,8,307,130,3504,12.0,"1970-01-01","USA")
+    // read a DF with your schema
+    val carsDFWithSchema = spark.read
+      .format("json")
+      .schema(carsDFSchema)
+      .load("src/main/resources/data/cars.json")
 
-  // create DF from tuples
-  val cars = Seq(
-    ("chevrolet chevelle malibu",18,8,307,130,3504,12.0,"1970-01-01","USA"),
-    ("buick skylark 320",15,8,350,165,3693,11.5,"1970-01-01","USA"),
-    ("plymouth satellite",18,8,318,150,3436,11.0,"1970-01-01","USA"),
-    ("amc rebel sst",16,8,304,150,3433,12.0,"1970-01-01","USA"),
-    ("ford torino",17,8,302,140,3449,10.5,"1970-01-01","USA"),
-    ("ford galaxie 500",15,8,429,198,4341,10.0,"1970-01-01","USA"),
-    ("chevrolet impala",14,8,454,220,4354,9.0,"1970-01-01","USA"),
-    ("plymouth fury iii",14,8,440,215,4312,8.5,"1970-01-01","USA"),
-    ("pontiac catalina",14,8,455,225,4425,10.0,"1970-01-01","USA"),
-    ("amc ambassador dpl",15,8,390,190,3850,8.5,"1970-01-01","USA")
-  )
-  val manualCarsDF = spark.createDataFrame(cars) // schema auto-inferred
+    // create rows by hand
+    val myRow = Row("chevrolet chevelle malibu",18,8,307,130,3504,12.0,"1970-01-01","USA")
 
-  // note: DFs have schemas, rows do not
+    // create DF from tuples
+    val cars = Seq(
+      ("chevrolet chevelle malibu",18,8,307,130,3504,12.0,"1970-01-01","USA"),
+      ("buick skylark 320",15,8,350,165,3693,11.5,"1970-01-01","USA"),
+      ("plymouth satellite",18,8,318,150,3436,11.0,"1970-01-01","USA"),
+      ("amc rebel sst",16,8,304,150,3433,12.0,"1970-01-01","USA"),
+      ("ford torino",17,8,302,140,3449,10.5,"1970-01-01","USA"),
+      ("ford galaxie 500",15,8,429,198,4341,10.0,"1970-01-01","USA"),
+      ("chevrolet impala",14,8,454,220,4354,9.0,"1970-01-01","USA"),
+      ("plymouth fury iii",14,8,440,215,4312,8.5,"1970-01-01","USA"),
+      ("pontiac catalina",14,8,455,225,4425,10.0,"1970-01-01","USA"),
+      ("amc ambassador dpl",15,8,390,190,3850,8.5,"1970-01-01","USA")
+    )
+    val manualCarsDF = spark.createDataFrame(cars) // schema auto-inferred
 
-  // create DFs with implicits
-  import spark.implicits._
-  val manualCarsDFWithImplicits = cars.toDF("Name", "MPG", "Cylinders", "Displacement", "HP", "Weight", "Acceleration", "Year", "CountryOrigin")
+    // note: DFs have schemas, rows do not
+
+    // create DFs with implicits
+    import spark.implicits._
+    val manualCarsDFWithImplicits = cars.toDF("Name", "MPG", "Cylinders", "Displacement", "HP", "Weight", "Acceleration", "Year", "CountryOrigin")
 
 
-  /**
-    * Exercise:
-    * 1) Create a manual DF describing smartphones
-    *   - make
-    *   - model
-    *   - screen dimension
-    *   - camera megapixels
-    *
-    * 2) Read another file from the data/ folder, e.g. movies.json
-    *   - print its schema
-    *   - count the number of rows, call count()
-    */
+    /**
+      * Exercise:
+      * 1) Create a manual DF describing smartphones
+      *   - make
+      *   - model
+      *   - screen dimension
+      *   - camera megapixels
+      *
+      * 2) Read another file from the data/ folder, e.g. movies.json
+      *   - print its schema
+      *   - count the number of rows, call count()
+      */
 
-  // 1
-  val smartphones = Seq(
-    ("Samsung", "Galaxy S10", "Android", 12),
-    ("Apple", "iPhone X", "iOS", 13),
-    ("Nokia", "3310", "THE BEST", 0)
-  )
+    // 1
+    val smartphones = Seq(
+      ("Samsung", "Galaxy S10", "Android", 12),
+      ("Apple", "iPhone X", "iOS", 13),
+      ("Nokia", "3310", "THE BEST", 0)
+    )
 
-  val smartphonesDF = smartphones.toDF("Make", "Model", "Platform", "CameraMegapixels")
-  smartphonesDF.show()
+    val smartphonesDF = smartphones.toDF("Make", "Model", "Platform", "CameraMegapixels")
+    smartphonesDF.show()
 
-  // 2
-  val moviesDF = spark.read
-    .format("json")
-    .option("inferSchema", "true")
-    .load("src/main/resources/data/movies.json")
-  moviesDF.printSchema()
-  println(s"The Movies DF has ${moviesDF.count()} rows")
+    // 2
+    val moviesDF = spark.read
+      .format("json")
+      .option("inferSchema", "true")
+      .load("src/main/resources/data/movies.json")
+    moviesDF.printSchema()
+    println(s"The Movies DF has ${moviesDF.count()} rows")
   }
 }

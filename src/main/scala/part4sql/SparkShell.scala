@@ -7,7 +7,6 @@ object SparkShell extends App {
     */
 
   /**
-    * UPDATE: updated for official Apache Spark Docker images (no more custom build step)
     *
     * To setup the Spark cluster in Docker:
     *

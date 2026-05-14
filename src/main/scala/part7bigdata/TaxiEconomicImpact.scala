@@ -5,6 +5,12 @@ import org.apache.spark.sql.functions._
 
 object TaxiEconomicImpact {
 
+  val spark = SparkSession.builder()
+    .config("spark.master", "local")
+    .appName("Taxi Big Data Application")
+    .getOrCreate()
+  import spark.implicits._
+
   def main(args: Array[String]): Unit = {
 
     if (args.length != 3) {
@@ -17,11 +23,6 @@ object TaxiEconomicImpact {
       2 - taxi zones data source
       3 - output data destination
      */
-    val spark = SparkSession.builder()
-      .config("spark.master", "local")
-      .appName("Taxi Big Data Application")
-      .getOrCreate()
-    import spark.implicits._
 
     val bigTaxiDF = spark.read.load(args(0))
     val taxiZonesDF = spark.read
