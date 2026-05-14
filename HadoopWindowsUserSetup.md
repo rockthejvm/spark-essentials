@@ -1,6 +1,3 @@
-<!-- UPDATE: Rewritten for Spark 4.1.1 — JDK 21, Hadoop 3.4.x winutils, added WSL 2 recommendation,
-     removed unnecessary full-Hadoop setup steps, fixed contradictory JDK version references -->
-
 # Setting Up Spark on Windows
 
 ## Recommended: Use WSL 2

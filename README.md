@@ -1,7 +1,5 @@
 # The official repository for the Rock the JVM Spark Essentials with Scala course
 
-<!-- UPDATE: Rewritten for Spark 4.1.1 — simplified Docker setup (official images), updated prerequisites, removed build-images step -->
-
 This repository contains the code we wrote during [Rock the JVM's Spark Essentials with Scala](https://rockthejvm.com/course/spark-essentials) (Udemy version [here](https://udemy.com/spark-essentials)). Unless explicitly mentioned, the code in this repository is exactly what was caught on camera.
 
 ## Prerequisites

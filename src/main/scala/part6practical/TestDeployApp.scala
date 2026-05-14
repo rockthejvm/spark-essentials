@@ -44,8 +44,6 @@ object TestDeployApp {
   }
 
    /*
-    * UPDATE: Rewritten for official Apache Spark Docker images and sbt packaging.
-    *
     * Build a JAR to run a Spark application on the Docker cluster:
     *
     * Option A (sbt): Run `sbt package` from the project root.
@@ -61,8 +59,6 @@ object TestDeployApp {
     */
 
   /**
-    * UPDATE: Updated Docker commands for official images (container name, Spark path).
-    *
     * How to run the Spark application on the Docker cluster:
     *
     * 1. Start the cluster (from the repo root)
